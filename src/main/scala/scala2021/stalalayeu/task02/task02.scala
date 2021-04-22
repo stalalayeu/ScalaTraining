@@ -19,7 +19,6 @@ object task02 {
     val res = brackets.toList
       .map(e => loop(e,0) + " -> " + e)
       .foreach(println)
-
   }
 
   @tailrec
@@ -33,10 +32,7 @@ object task02 {
           loop("", level)
         else {
           val tail = matcher.get
-          if (tail.startsWith("("))
-            loop(tail.substring(1) ,level + 1)
-          else
-            loop(tail.substring(1) ,level - 1)
+          loop(tail.substring(1), level + { if (tail.startsWith("(")) 1 else -1 })
         }
       }
   }
