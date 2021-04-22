@@ -4,7 +4,6 @@ object task01 {
 
   val counts = Array(
     "900,google.com",
-    "100,google.com",
     "60,mail.yahoo.com",
     "10,mobile.sports.yahoo.com",
     "40,sports.yahoo.com",
