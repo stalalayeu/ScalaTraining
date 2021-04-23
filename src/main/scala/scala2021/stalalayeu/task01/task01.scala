@@ -1,5 +1,7 @@
 package scala2021.stalalayeu.task01
 
+import scala.::
+
 object task01 {
 
   val counts = Array(
@@ -18,33 +20,26 @@ object task01 {
     println("---------------")
 
     val res = counts.toList
-      .map(_.split(","))
-      .map { case Array(s1,s2) => (s1,s2)}
-      .flatMap(e => loop(e))
-      .groupBy(e => e._2)
-      .collect({
-        case e => (e._2, e._2.map(_._1.toInt).sum)
-      })
-      .toSeq.sortWith((e1, e2) => sort(e1._1.apply(0)._2, e2._1.apply(0)._2))
-
-    println(res.mkString("\r\n"))
-    println("---------------")
-
-    res.map {case e: (List[(String, String)], Int) => (e._2, e._1.apply(0)._2)}
+      .map(_.split(",").toList)
+      .flatMap(loop(_))
+      .groupBy(_.apply(1))
+      .collect{case e => (e._1, e._2.map(_.apply(0).toInt).sum)}
+      .toSeq.sortWith(sort)
       .foreach(println)
+
   }
 
-  def sort(s1: String, s2: String): Boolean = {
-    val s1_ = s1.split("\\.").reverse.mkString
-    val s2_ = s2.split("\\.").reverse.mkString
+  def sort(s1: (String, Int), s2: (String, Int)): Boolean = {
+    val s1_ = s1._1.split("\\.").reverse.mkString
+    val s2_ = s2._1.split("\\.").reverse.mkString
     return s1_ < s2_
   }
 
-  def loop(s: (String, String)): List[(String, String)] = {
-    if (s._2.indexOf(".") >= 0)
-      s :: loop((s._1, s._2.substring(s._2.indexOf(".")+1)))
+  def loop(e: List[String]): List[List[String]] = {
+    if (e.apply(1).indexOf(".") >= 0)
+      e :: loop(e.apply(0) :: e.apply(1).substring(e.apply(1).indexOf(".") + 1) :: Nil)
     else
-      (s._1, s._2) :: Nil
+      e :: Nil
   }
 
 }
