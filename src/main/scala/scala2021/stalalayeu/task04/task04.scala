@@ -8,7 +8,7 @@ object task04 {
   val amountToChange = 18
 
   def main(args: Array[String]) = {
-    println(listCoins.sorted)
+    println(listCoins.sorted + " => " + amountToChange)
     println("---------------")
     val list_ = listCoins.sorted
       .map(e => List.fill(amountToChange / e)(e))
